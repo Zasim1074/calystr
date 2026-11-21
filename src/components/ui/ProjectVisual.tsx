@@ -41,17 +41,39 @@ export function ProjectVisual({ project }: { project: Project }) {
   }
 
   return (
-    <div className={`project-visual ${project.theme}`} aria-label={`Interface concept for ${project.title}`} role="img">
+    <div
+      className={`project-visual ${project.theme}`}
+      aria-label={`Interface concept for ${project.title}`}
+      role="img"
+    >
       <div className="screen">
-        <div className="screen-bar"><i/><i/><i/><span>{project.title} / website</span></div>
+        <div className="screen-bar">
+          <i />
+          <i />
+          <i />
+          <span>{project.title} / website</span>
+        </div>
         <div className="screen-layout">
-          <aside>{[1, 2, 3, 4].map((item) => <i key={item}/>)}</aside>
+          <aside>
+            {[1, 2, 3, 4].map((item) => (
+              <i key={item} />
+            ))}
+          </aside>
           <div className="screen-content">
             <small>{project.type}</small>
             <h4>{content.heading}</h4>
-            <div className="metric-row"><strong>{content.value}</strong><span>{content.label}</span></div>
+            <div className="metric-row">
+              <strong>{content.value}</strong>
+              <span>{content.label}</span>
+            </div>
             <div className="screen-grid">
-              {content.columns.map((label, index) => <div key={label}><b>{label}</b><span style={{ height: `${34 + index * 15}px` }}/><span style={{ height: `${52 - index * 7}px` }}/></div>)}
+              {content.columns.map((label, index) => (
+                <div key={label}>
+                  <b>{label}</b>
+                  <span style={{ height: `${34 + index * 15}px` }} />
+                  <span style={{ height: `${52 - index * 7}px` }} />
+                </div>
+              ))}
             </div>
           </div>
         </div>

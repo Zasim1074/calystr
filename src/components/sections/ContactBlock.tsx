@@ -11,12 +11,22 @@ export function ContactBlock() {
           <span className="eyebrow">Start a conversation</span>
           <h2>{inquiry.heading}</h2>
           <p>{inquiry.description}</p>
-          {site.email && <a className="email-link" href={`mailto:${site.email}`}>{site.email}</a>}
+          {site.email && (
+            <a className="email-link" href={`mailto:${site.email}`}>
+              {site.email}
+            </a>
+          )}
           <div className="direct-contacts">
-            {founders.map((founder) => <article key={founder.id}><strong>{founder.name}</strong><span>{founder.role}</span><FounderContacts founder={founder}/></article>)}
+            {founders.map((founder) => (
+              <article key={founder.id}>
+                <strong>{founder.name}</strong>
+                <span>{founder.role}</span>
+                <FounderContacts founder={founder} />
+              </article>
+            ))}
           </div>
         </div>
-        <ContactForm/>
+        <ContactForm />
       </Container>
     </section>
   );

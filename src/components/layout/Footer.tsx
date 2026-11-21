@@ -3,10 +3,45 @@ import { founders, navigation, services, site } from "@/data/data";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "./Logo";
 
-export function Footer(){return <footer><Container className="footer-grid">
-  <div className="footer-lead"><Logo/><p>{site.tagline}</p></div>
-  <div><span className="footer-label">Navigate</span>{navigation.map(item=><Link key={item.href} href={`/${item.href}`}>{item.label}</Link>)}</div>
-  <div><span className="footer-label">Capabilities</span>{services.slice(0,4).map(service=><Link key={service.slug} href={`/services/${service.slug}`}>{service.shortTitle}</Link>)}</div>
-  <div><span className="footer-label">Contact</span>{founders.map(founder=><a key={founder.id} href={`mailto:${founder.email}`}>{founder.name.split(" ")[0]} · Email</a>)}<p>{site.location.city}, {site.location.country}</p></div>
-  <small>© {new Date().getFullYear()} {site.name}. All rights reserved.</small>
-  </Container></footer>}
+export function Footer() {
+  return (
+    <footer>
+      <Container className="footer-grid">
+        <div className="footer-lead">
+          <Logo />
+          <p>{site.tagline}</p>
+        </div>
+        <div>
+          <span className="footer-label">Navigate</span>
+          {navigation.map((item) => (
+            <Link key={item.href} href={`/${item.href}`}>
+              {item.label}
+            </Link>
+          ))}
+        </div>
+        <div>
+          <span className="footer-label">Capabilities</span>
+          {services.slice(0, 4).map((service) => (
+            <Link key={service.slug} href={`/services/${service.slug}`}>
+              {service.shortTitle}
+            </Link>
+          ))}
+        </div>
+        <div>
+          <span className="footer-label">Contact</span>
+          {founders.map((founder) => (
+            <a key={founder.id} href={`mailto:${founder.email}`}>
+              {founder.name.split(" ")[0]} · Email
+            </a>
+          ))}
+          <p>
+            {site.location.city}, {site.location.country}
+          </p>
+        </div>
+        <small>
+          © {new Date().getFullYear()} {site.name}. All rights reserved.
+        </small>
+      </Container>
+    </footer>
+  );
+}

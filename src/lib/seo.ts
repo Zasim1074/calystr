@@ -11,12 +11,36 @@ type PageMetadata = {
 };
 
 const defaultRobots: Metadata["robots"] = seoConfig.isIndexable
-  ? { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } }
-  : { index: false, follow: false, noarchive: true, googleBot: { index: false, follow: false, noimageindex: true } };
+  ? {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    }
+  : {
+      index: false,
+      follow: false,
+      noarchive: true,
+      googleBot: { index: false, follow: false, noimageindex: true },
+    };
 
-export function createPageMetadata({ title, description, path, image = seoConfig.defaultOgImage, type = "website", noIndex = false }: PageMetadata): Metadata {
+export function createPageMetadata({
+  title,
+  description,
+  path,
+  image = seoConfig.defaultOgImage,
+  type = "website",
+  noIndex = false,
+}: PageMetadata): Metadata {
   const canonical = canonicalPath(path);
-  const robots = noIndex ? { index: false, follow: false, noarchive: true } : defaultRobots;
+  const robots = noIndex
+    ? { index: false, follow: false, noarchive: true }
+    : defaultRobots;
   return {
     title,
     description,
@@ -29,17 +53,36 @@ export function createPageMetadata({ title, description, path, image = seoConfig
       siteName: seoConfig.siteName,
       title: `${title} | ${seoConfig.siteName}`,
       description,
-      images: [{ url: image, width: 1200, height: 630, alt: `${seoConfig.siteName} — ${title}` }],
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: `${seoConfig.siteName} — ${title}`,
+        },
+      ],
     },
-    twitter: { card: seoConfig.twitterCard, title: `${title} | ${seoConfig.siteName}`, description, images: [image] },
+    twitter: {
+      card: seoConfig.twitterCard,
+      title: `${title} | ${seoConfig.siteName}`,
+      description,
+      images: [image],
+    },
   };
 }
 
 export function createRootMetadata(): Metadata {
   return {
-    ...createPageMetadata({ title: "Web, Software & AI Development Studio", description: seoConfig.defaultDescription, path: "/" }),
+    ...createPageMetadata({
+      title: "Web, Software & AI Development Studio",
+      description: seoConfig.defaultDescription,
+      path: "/",
+    }),
     metadataBase: new URL(seoConfig.siteUrl),
-    title: { default: seoConfig.defaultTitle, template: seoConfig.titleTemplate },
+    title: {
+      default: seoConfig.defaultTitle,
+      template: seoConfig.titleTemplate,
+    },
     description: seoConfig.defaultDescription,
     applicationName: seoConfig.siteName,
     authors: [{ name: seoConfig.siteName, url: absoluteUrl("/") }],

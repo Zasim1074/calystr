@@ -7,7 +7,12 @@ type RevealProps = HTMLMotionProps<"div"> & {
   distance?: number;
 };
 
-export function Reveal({ children, delay = 0, distance = 24, ...props }: RevealProps) {
+export function Reveal({
+  children,
+  delay = 0,
+  distance = 24,
+  ...props
+}: RevealProps) {
   const reduceMotion = useReducedMotion();
 
   return (
