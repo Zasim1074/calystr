@@ -1,0 +1,1 @@
+export function AbstractVisual(){return <div className="abstract-visual" aria-hidden="true"><i className="arc arc-one"/><i className="arc arc-two"/><i className="arc arc-three"/><span className="visual-glow"/></div>}

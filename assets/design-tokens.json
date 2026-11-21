@@ -1,0 +1,11 @@
+{
+  "brand": "CALYSTR",
+  "ratio": { "signalRed": 60, "electricBlue": 30, "warmWhite": 10 },
+  "colors": {
+    "warmWhite": "#F2F0EA",
+    "electricBlue": "#315CFF",
+    "signalRed": "#F04432",
+    "midnight": "#07080B",
+    "surface": "#0E1118"
+  }
+}
