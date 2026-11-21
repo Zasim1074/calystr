@@ -1,11 +1,12 @@
 import type { Project, Service } from "@/types";
+import { seoConfig } from "@/config/seo";
 
 export const site = {
-  name: "CALYSTR",
-  displayName: "Calystr Studio",
+  name: seoConfig.shortName,
+  displayName: seoConfig.siteName,
   pronunciation: "Cal-iss-tr",
-  legalName: "Calystr Studio",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
+  legalName: seoConfig.legalName,
+  url: seoConfig.siteUrl,
   email: "",
   phone: "+91 9555917856",
   location: { city: "Delhi", region: "Delhi", country: "India" },
@@ -28,8 +29,8 @@ export const brand = {
 } as const;
 
 export const navigation = [
-  { label: "Services", href: "/services" }, { label: "Work", href: "/work" },
-  { label: "About", href: "/about" }, { label: "Contact", href: "/contact" },
+  { label: "Services", href: "#services" }, { label: "Work", href: "#work" },
+  { label: "About", href: "#about" }, { label: "Contact", href: "#contact" },
 ];
 
 export const hero = {
@@ -65,6 +66,7 @@ export const industries = [
 ];
 
 export const projects: Project[] = [
+  { slug:"hotel-sanwariya", title:"Hotel Sanwariya", type:"Hospitality website", status:"Client project", summary:"A clear, responsive hotel website designed to present the property, rooms and guest essentials while making booking enquiries easy to start.", problem:"Prospective guests need a trustworthy way to understand the stay, compare room options and contact the hotel without relying on fragmented listing information.", challenge:"Bring atmosphere, practical details and a direct enquiry path together in a fast experience that works well on mobile.", solution:"A focused hospitality website with structured room information, property highlights, location context and prominent booking actions.", implementation:["Responsive, mobile-first accommodation and amenity pages","Clear booking and contact paths across the visitor journey","Structured content and technical SEO foundations"], technologies:["Next.js","React","TypeScript","SEO"], theme:"gold", image:"/projects/hotel-sanwariya.png", liveUrl:"https://sanwariyahotel.com/" },
   { slug:"trackhire", title:"TrackHire", type:"Full-stack product", status:"Independent project", summary:"A focused workspace for organizing job applications and recruitment activity.", problem:"Job search and hiring activity becomes difficult to follow across inboxes, notes and disconnected tools.", challenge:"Create a useful workflow without turning a simple tracking need into a heavy enterprise system.", solution:"A structured product experience that brings roles, applications, stages and next actions into one legible workspace.", implementation:["Responsive workflow views for desktop and mobile","Typed client-to-API contracts","Relational data model designed around application history"], technologies:["React","TypeScript","FastAPI","PostgreSQL"], theme:"ember" },
   { slug:"llm-reliability-lab", title:"LLM Reliability Lab", type:"AI engineering", status:"Concept study", summary:"An evaluation workspace for understanding how AI applications behave before release.", problem:"Language-model outputs can look convincing while failing silently on the cases that matter.", challenge:"Make evaluation evidence readable for both engineering and product decisions.", solution:"A technical environment for organizing test cases, comparing runs and making reliability work visible.", implementation:["Reusable evaluation suites and test cases","Response comparison and pass/fail evidence","Run-level quality signals and failure inspection"], technologies:["Python","LLMs","Evaluations","APIs"], theme:"cyan" },
 ];

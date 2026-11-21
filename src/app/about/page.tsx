@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container } from "@/components/ui/Container";
 import { ContactBlock } from "@/components/sections/ContactBlock";
 import { founders, processSteps } from "@/data/data";
 import { FounderContacts } from "@/components/FounderContacts";
-export const metadata:Metadata={title:"About the studio",description:"Meet the two-person founding team behind STUDIO_NAME and learn how we approach digital product engineering.",alternates:{canonical:"/about"}};
+import { createPageMetadata } from "@/lib/seo";
+export const metadata=createPageMetadata({title:"About the studio",description:"Meet the two-person founding team behind Calystr Studio and learn how we approach digital product engineering.",path:"/about"});
 export default function AboutPage(){return <><PageHero eyebrow="About Calystr" title="Small by design. Serious about the work." copy="A two-person founding team built around direct communication, senior technical ownership and decisions that remain understandable long after launch."/><section className="section"><Container><div className="founder-grid founder-grid-large">{founders.map((f,i)=><article key={f.name}><div className={`portrait portrait-${i}`}><span>{f.initials}</span></div><h2>{f.name}</h2><b>{f.role}</b><p>{f.description}</p><FounderContacts founder={f}/></article>)}</div></Container></section><section className="section process-section"><Container><div className="section-heading"><span className="eyebrow">Principles</span><h2>Clear thinking. Visible trade-offs. Durable software.</h2><p>We ask difficult questions early, keep context close to implementation and choose tools based on the problem—not trend pressure.</p></div><ol>{processSteps.map(([t,c],i)=><li key={t}><span>0{i+1}</span><h3>{t}</h3><p>{c}</p></li>)}</ol></Container></section><ContactBlock/></>}

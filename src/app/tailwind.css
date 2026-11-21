@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@layer components {
+  .route-loading {
+    min-height: 100dvh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 1.125rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .route-loading-mark {
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--line);
+    border-top-color: var(--red);
+    border-radius: 999px;
+    animation: route-spin 800ms linear infinite;
+  }
+}
+
+@keyframes route-spin {
+  to { transform: rotate(360deg); }
+}

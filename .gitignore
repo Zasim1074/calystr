@@ -34,12 +34,19 @@ playwright-report/
 *.tsbuildinfo
 next-env.d.ts
 
+# Python
+__pycache__/
+*.py[cod]
+
 # Editors and operating systems
 .DS_Store
 .idea/
 .vscode/
 *.swp
 *.swo
+
+# Local agent skills
+.agents/
 
 # Vercel
 .vercel/

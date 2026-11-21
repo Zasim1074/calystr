@@ -4,7 +4,8 @@ export type Service = {
 };
 
 export type Project = {
-  slug: string; title: string; type: string; status: "Independent project" | "Concept study";
+  slug: string; title: string; type: string; status: "Client project" | "Independent project" | "Concept study";
   summary: string; problem: string; challenge: string; solution: string;
-  implementation: string[]; technologies: string[]; theme: "ember" | "cyan"; href?: string;
+  implementation: string[]; technologies: string[]; theme: "gold" | "ember" | "cyan";
+  image?: string; liveUrl?: string;
 };

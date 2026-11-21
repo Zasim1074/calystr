@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "project": {
+    "name": "calystr-studio-site",
+    "productType": "premium software engineering studio",
+    "stack": [
+      "nextjs",
+      "react",
+      "tailwind-v4"
+    ]
+  },
+  "sources": {
+    "tokens": [
+      "src/app/globals.css"
+    ],
+    "components": [
+      "src/components/ui"
+    ],
+    "assets": [
+      "assets"
+    ],
+    "instructions": [
+      "AGENTS.md"
+    ]
+  },
+  "design": {
+    "colorMode": "dark",
+    "colors": {
+      "--muted": {
+        "value": "#a7a9b3",
+        "source": "src/app/globals.css"
+      }
+    },
+    "typography": {
+      "--text": {
+        "value": "#f2f0ea",
+        "source": "src/app/globals.css"
+      }
+    },
+    "spacing": {
+      "--container": {
+        "value": "1440px",
+        "source": "src/app/globals.css"
+      }
+    },
+    "radius": {
+      "--radius": {
+        "value": "24px",
+        "source": "src/app/globals.css"
+      }
+    },
+    "shadows": {},
+    "motion": {
+      "--ease": {
+        "value": "cubic-bezier(.22,1,.36,1)",
+        "source": "src/app/globals.css"
+      }
+    },
+    "density": "unknown"
+  },
+  "components": {
+    "installed": [
+      "ButtonLink",
+      "Container",
+      "PageHero",
+      "ProjectVisual"
+    ],
+    "preferredPrimitives": [],
+    "patterns": []
+  },
+  "constraints": {
+    "must": [
+      "Preserve the CALYSTR red-led dark technical identity",
+      "Use existing tokens and primitives before adding alternatives",
+      "Maintain visible focus, keyboard access, and reduced-motion support"
+    ],
+    "avoid": [
+      "Generic agency templates",
+      "Excessive glassmorphism or decorative gradients",
+      "Fabricated proof, clients, testimonials, or metrics"
+    ]
+  },
+  "decisions": [
+    {
+      "decision": "Retain the existing editorial dark visual direction instead of adopting generic luxury or glass recommendations.",
+      "reason": "The red, electric-blue, and warm-white system is distinctive and aligned with a technical studio."
+    },
+    {
+      "decision": "Prefer existing project primitives over catalog imports.",
+      "reason": "The current navigation, form, and links are accessible, lean, and brand-specific."
+    },
+    {
+      "decision": "Use a fixed header with homepage section anchors and an opaque compact navigation panel.",
+      "reason": "Primary navigation should preserve the homepage narrative while remaining legible and reachable at every viewport."
+    }
+  ],
+  "evidence": [
+    {
+      "fact": "components.installed",
+      "source": "src/components/ui"
+    },
+    {
+      "fact": "design.colorMode:light",
+      "source": "src/app/globals.css"
+    },
+    {
+      "fact": "design.tokens",
+      "source": "src/app/globals.css"
+    },
+    {
+      "fact": "project.instructions",
+      "source": "AGENTS.md"
+    },
+    {
+      "fact": "project.stack:nextjs",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:react",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:tailwind-v4",
+      "source": "package.json"
+    }
+  ],
+  "generatedAt": "2026-11-21T09:56:55.772Z"
+}

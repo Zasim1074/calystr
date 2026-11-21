@@ -1,0 +1,63 @@
+.site-header {
+  position: fixed;
+  isolation: isolate;
+  background: rgba(7, 8, 11, 0.9);
+}
+
+.site-header.menu-open {
+  background: var(--bg);
+  backdrop-filter: none;
+}
+
+#services,
+#work,
+#about,
+#contact {
+  scroll-margin-top: 88px;
+}
+
+.project-visual.gold {
+  background:
+    radial-gradient(circle at 78% 18%, #f2c66d 0, transparent 24%),
+    linear-gradient(145deg, #342413, #9a642c 54%, #08090d);
+}
+
+.project-visual.has-image {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  background: var(--surface);
+}
+
+.project-screenshot {
+  object-fit: cover;
+  object-position: top center;
+}
+
+@media (max-width: 900px) {
+  .mobile-nav {
+    z-index: 60;
+    min-height: calc(100dvh - 88px);
+    overflow-y: auto;
+    background: rgb(3, 4, 7);
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  .mobile-nav a {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  #services,
+  #work,
+  #about,
+  #contact {
+    scroll-margin-top: 72px;
+  }
+
+  .mobile-nav {
+    min-height: calc(100dvh - 72px);
+  }
+}
