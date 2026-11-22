@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { pageSeo } from "@/config/seo-content";
 import { createRootMetadata } from "@/lib/seo";
 import { globalSchema } from "@/lib/structured-data";
 import "./tailwind.css";
@@ -11,7 +12,7 @@ import "./navigation.css";
 import "./seo.css";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-export const metadata: Metadata = createRootMetadata();
+export const metadata: Metadata = createRootMetadata(pageSeo.home);
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

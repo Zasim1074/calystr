@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { services, inquiry } from "@/data/data";
+import { services } from "@/data/data";
 
-const schema=z.object({name:z.string().trim().min(2).max(80),business:z.string().trim().max(120).optional().default(""),email:z.string().email().max(160),phone:z.string().trim().max(24).optional().default(""),service:z.enum(services.map(s=>s.title) as [string,...string[]]),budget:z.enum(inquiry.budgets as [string,...string[]]),description:z.string().trim().min(30).max(5000),website:z.string().max(0).optional().default("")});
+const schema=z.object({name:z.string().trim().min(2).max(80),business:z.string().trim().max(120).optional().default(""),email:z.union([z.string().email().max(160),z.literal("")]).optional().default(""),phone:z.string().trim().min(7).max(20).regex(/^[+0-9 ()-]+$/),services:z.array(z.enum(services.map(s=>s.title) as [string,...string[]])).optional().default([]),description:z.string().trim().max(5000).optional().default(""),website:z.string().max(0).optional().default("")});
 const attempts=new Map<string,{count:number;reset:number}>();
 
 export async function POST(request:Request){const ip=request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()??"unknown";const now=Date.now();const record=attempts.get(ip);if(record&&record.reset>now&&record.count>=5)return NextResponse.json({message:"Too many requests. Please try again later."},{status:429});attempts.set(ip,!record||record.reset<=now?{count:1,reset:now+60_000}:{...record,count:record.count+1});

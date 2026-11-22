@@ -1,13 +1,16 @@
+import { seoConfig } from "@/config/seo";
+import type { ServiceSlug } from "@/types";
+
 type SeoEntry = { title: string; description: string };
 
 export const pageSeo = {
   home: {
     title: "Web, Software & AI Development Studio",
-    description: "Calystr Studio builds high-performance websites, custom software, mobile applications and dependable AI systems for businesses in India and worldwide.",
+    description: seoConfig.defaultDescription,
   },
   services: {
-    title: "Software, Web & AI Development Services",
-    description: "Explore website, web application, mobile, backend, custom software and AI development services delivered with direct senior engineering ownership.",
+    title: "Website, Software & AI Development Services",
+    description: "Explore Calystr Studio's website, application, software, mobile, backend and AI engineering services for businesses in India.",
   },
   work: {
     title: "Selected Web, Software & AI Projects",
@@ -21,39 +24,39 @@ export const pageSeo = {
     title: "Discuss Your Software Project",
     description: "Tell Calystr Studio about your website, custom software, mobile application or AI project and receive a practical next step from the founding team.",
   },
-} satisfies Record<string, SeoEntry>;
+} satisfies Record<"home" | "services" | "work" | "about" | "contact", SeoEntry>;
 
 export const serviceSeo = {
   "website-development": {
     title: "Website Development Services",
-    description: "Distinctive, accessible and search-ready Next.js websites designed to build trust, explain your offer and turn attention into qualified enquiries.",
+    description: "Plan and build a fast, accessible business website that explains your offer clearly and gives visitors a straightforward next step.",
   },
   "custom-software": {
-    title: "Custom Software Development Services",
-    description: "Purpose-built software for businesses constrained by spreadsheets, manual handoffs or inflexible tools, engineered for maintainability and change.",
+    title: "Custom Software Development",
+    description: "Replace spreadsheet-heavy or disconnected workflows with maintainable custom software shaped around the way your business operates.",
   },
   "web-applications": {
-    title: "Web Application Development Services",
-    description: "Responsive portals, dashboards and customer-facing web applications designed around real workflows and built on a dependable technical foundation.",
+    title: "Custom Web Application Development",
+    description: "Design and build responsive portals, dashboards and customer-facing web applications around real user workflows and business needs.",
   },
   "mobile-applications": {
-    title: "Mobile App Development Services",
-    description: "Focused cross-platform mobile applications for customer and operational workflows, with coherent product design, API integration and release support.",
+    title: "Mobile App Development",
+    description: "Plan and build focused iOS and Android applications for customer or operational workflows, with API integration and release support.",
   },
   "ai-integration": {
-    title: "AI Integration Services for Business",
-    description: "Integrate LLMs, RAG and evaluated AI capabilities into real business workflows with human oversight, observability and practical safeguards.",
+    title: "AI Integration for Business Applications",
+    description: "Add language-model and retrieval capabilities to business workflows with evaluation, human oversight and practical operational safeguards.",
   },
   "agentic-ai-automation": {
-    title: "Agentic AI & Business Automation Services",
-    description: "Build supervised AI agents and connected automations for multi-step operational work with explicit approvals, monitoring and recovery paths.",
+    title: "Agentic AI & Workflow Automation",
+    description: "Automate multi-step operational work with supervised AI agents, explicit approval points, monitoring and recovery paths.",
   },
   "api-backend-development": {
-    title: "API & Backend Development Services",
-    description: "Dependable APIs, data models and backend services built for secure integrations, consistent information and maintainable product growth.",
+    title: "API & Backend Development",
+    description: "Build dependable APIs, integrations and backend services with clear data models, secure access and maintainable interfaces.",
   },
   "maintenance-deployment": {
-    title: "Website Maintenance & Deployment Services",
-    description: "Ongoing deployment, dependency, performance and reliability support for business-critical websites and software products after launch.",
+    title: "Website Maintenance & Deployment",
+    description: "Keep business websites and software dependable with planned updates, deployment support, performance checks and technical maintenance.",
   },
-} satisfies Record<string, SeoEntry>;
+} satisfies Record<ServiceSlug, SeoEntry>;

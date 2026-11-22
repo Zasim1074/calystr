@@ -1,6 +1,7 @@
 import { absoluteUrl, seoConfig } from "@/config/seo";
 import { founders, services } from "@/data/data";
 
+type SchemaReference = { "@id": string };
 export type BreadcrumbItem = { name: string; path: string };
 const ids = {
   organization: absoluteUrl("/#organization"),
@@ -10,39 +11,39 @@ const ids = {
 export function globalSchema() {
   return {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": ["Organization", "ProfessionalService"],
-        "@id": ids.organization,
-        name: seoConfig.siteName,
-        legalName: seoConfig.legalName,
-        url: absoluteUrl("/"),
-        logo: { "@type": "ImageObject", url: absoluteUrl("/favicon.svg") },
-        image: absoluteUrl(seoConfig.defaultOgImage),
-        description: seoConfig.organization.description,
-        telephone: seoConfig.organization.telephone,
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: seoConfig.organization.location.city,
-          addressRegion: seoConfig.organization.location.region,
-          addressCountry: seoConfig.organization.location.country,
-        },
-        areaServed: [
-          { "@type": "Country", name: "India" },
-          { "@type": "Place", name: "Worldwide" },
-        ],
-        knowsAbout: services.map((service) => service.title),
-      },
-      {
-        "@type": "WebSite",
-        "@id": ids.website,
-        url: absoluteUrl("/"),
-        name: seoConfig.siteName,
-        description: seoConfig.defaultDescription,
-        inLanguage: seoConfig.language,
-        publisher: { "@id": ids.organization },
-      },
-    ],
+    "@type": "Organization",
+    "@id": ids.organization,
+    name: seoConfig.siteName,
+    legalName: seoConfig.legalName,
+    url: absoluteUrl("/"),
+    logo: {
+      "@type": "ImageObject",
+      "@id": absoluteUrl(`${seoConfig.logoPath}#logo`),
+      url: absoluteUrl(seoConfig.logoPath),
+      contentUrl: absoluteUrl(seoConfig.logoPath),
+      width: 512,
+      height: 512,
+    },
+    image: absoluteUrl(seoConfig.defaultOgImage),
+    description: seoConfig.organization.description,
+    areaServed: seoConfig.serviceAreas.map((name) => ({ "@type": "Country", name })),
+    knowsAbout: services.map((service) => service.title),
+    ...(seoConfig.publicContact.email ? { email: seoConfig.publicContact.email } : {}),
+    ...(seoConfig.publicContact.telephone ? { telephone: seoConfig.publicContact.telephone } : {}),
+    ...(seoConfig.socialProfiles.length ? { sameAs: seoConfig.socialProfiles } : {}),
+  };
+}
+
+export function websiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": ids.website,
+    url: absoluteUrl("/"),
+    name: seoConfig.siteName,
+    description: seoConfig.defaultDescription,
+    inLanguage: seoConfig.language,
+    publisher: { "@id": ids.organization },
   };
 }
 
@@ -50,6 +51,7 @@ export function breadcrumbSchema(items: BreadcrumbItem[]) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    "@id": absoluteUrl(`${items[items.length - 1]?.path ?? "/"}#breadcrumb`),
     itemListElement: items.map((item, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -64,23 +66,29 @@ export function webPageSchema({
   path,
   name,
   description,
+  mainEntity,
+  about,
 }: {
   type?: "WebPage" | "AboutPage" | "ContactPage" | "CollectionPage";
   path: string;
   name: string;
   description: string;
+  mainEntity?: SchemaReference;
+  about?: SchemaReference;
 }) {
+  const canonicalUrl = absoluteUrl(path);
   return {
     "@context": "https://schema.org",
     "@type": type,
     "@id": absoluteUrl(`${path}#webpage`),
-    url: absoluteUrl(path),
+    url: canonicalUrl,
     name,
     description,
     inLanguage: seoConfig.language,
     isPartOf: { "@id": ids.website },
-    about: { "@id": ids.organization },
-    provider: { "@id": ids.organization },
+    publisher: { "@id": ids.organization },
+    ...(mainEntity ? { mainEntity } : {}),
+    ...(about ? { about } : {}),
   };
 }
 
@@ -90,14 +98,18 @@ export function aboutPageSchema(
   description: string,
 ) {
   return {
-    ...webPageSchema({ type: "AboutPage", path, name, description }),
-    mainEntity: { "@id": ids.organization },
+    ...webPageSchema({
+      type: "AboutPage",
+      path,
+      name,
+      description,
+      mainEntity: { "@id": ids.organization },
+      about: { "@id": ids.organization },
+    }),
     mentions: founders.map((founder) => ({
       "@type": "Person",
       name: founder.name,
       jobTitle: founder.role,
-      email: founder.email,
-      telephone: founder.phone,
       worksFor: { "@id": ids.organization },
     })),
   };
@@ -117,13 +129,11 @@ export function serviceSchema(service: {
     name: service.title,
     description: service.summary,
     url: absoluteUrl(`/services/${service.slug}`),
+    mainEntityOfPage: { "@id": absoluteUrl(`/services/${service.slug}#webpage`) },
     provider: { "@id": ids.organization },
-    areaServed: [
-      { "@type": "Country", name: "India" },
-      { "@type": "Place", name: "Worldwide" },
-    ],
+    areaServed: seoConfig.serviceAreas.map((name) => ({ "@type": "Country", name })),
     audience: { "@type": "Audience", audienceType: service.audience },
-    serviceOutput: service.value,
+    serviceOutput: { "@type": "Thing", name: service.value },
   };
 }
 
@@ -133,7 +143,6 @@ export function projectSchema(project: {
   summary: string;
   type: string;
   image?: string;
-  liveUrl?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -142,8 +151,8 @@ export function projectSchema(project: {
     name: project.title,
     description: project.summary,
     url: absoluteUrl(`/work/${project.slug}`),
+    mainEntityOfPage: { "@id": absoluteUrl(`/work/${project.slug}#webpage`) },
     image: project.image ? absoluteUrl(project.image) : undefined,
-    sameAs: project.liveUrl,
     genre: project.type,
     creator: { "@id": ids.organization },
   };

@@ -6,6 +6,9 @@ type PageMetadata = {
   description: string;
   path: `/${string}` | "/";
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   type?: "website" | "article";
   noIndex?: boolean;
 };
@@ -34,31 +37,36 @@ export function createPageMetadata({
   description,
   path,
   image = seoConfig.defaultOgImage,
+  imageAlt = `${seoConfig.siteName} — ${title}`,
+  imageWidth = 1200,
+  imageHeight = 630,
   type = "website",
   noIndex = false,
 }: PageMetadata): Metadata {
   const canonical = canonicalPath(path);
+  const canonicalUrl = absoluteUrl(canonical);
+  const imageUrl = absoluteUrl(image);
   const robots = noIndex
     ? { index: false, follow: false, noarchive: true }
     : defaultRobots;
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: { canonical: canonicalUrl },
     robots,
     openGraph: {
       type,
-      url: canonical,
+      url: canonicalUrl,
       locale: seoConfig.locale,
       siteName: seoConfig.siteName,
       title: `${title} | ${seoConfig.siteName}`,
       description,
       images: [
         {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: `${seoConfig.siteName} — ${title}`,
+          url: imageUrl,
+          width: imageWidth,
+          height: imageHeight,
+          alt: imageAlt,
         },
       ],
     },
@@ -66,16 +74,15 @@ export function createPageMetadata({
       card: seoConfig.twitterCard,
       title: `${title} | ${seoConfig.siteName}`,
       description,
-      images: [image],
+      images: [{ url: imageUrl, alt: imageAlt }],
     },
   };
 }
 
-export function createRootMetadata(): Metadata {
+export function createRootMetadata(home: Pick<PageMetadata, "title" | "description">): Metadata {
   return {
     ...createPageMetadata({
-      title: "Web, Software & AI Development Studio",
-      description: seoConfig.defaultDescription,
+      ...home,
       path: "/",
     }),
     metadataBase: new URL(seoConfig.siteUrl),
@@ -83,17 +90,25 @@ export function createRootMetadata(): Metadata {
       default: seoConfig.defaultTitle,
       template: seoConfig.titleTemplate,
     },
-    description: seoConfig.defaultDescription,
+    description: home.description,
     applicationName: seoConfig.siteName,
     authors: [{ name: seoConfig.siteName, url: absoluteUrl("/") }],
     creator: seoConfig.siteName,
     publisher: seoConfig.siteName,
     category: "technology",
-    icons: { icon: "/favicon.svg" },
+    icons: { icon: seoConfig.logoPath },
     formatDetection: { email: false, address: false, telephone: false },
   };
 }
 
 export function createNoIndexMetadata(title: string): Metadata {
-  return { title, robots: { index: false, follow: false, noarchive: true } };
+  return {
+    title,
+    robots: {
+      index: false,
+      follow: false,
+      noarchive: true,
+      googleBot: { index: false, follow: false, noimageindex: true },
+    },
+  };
 }

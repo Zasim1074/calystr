@@ -25,6 +25,7 @@ export default defineConfig({
   webServer: {
     command: `npm run dev -- --hostname localhost --port ${port}`,
     url: `http://localhost:${port}`,
+    env: { ...process.env, VERCEL_ENV: "production" },
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

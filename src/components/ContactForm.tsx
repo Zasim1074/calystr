@@ -1,42 +1,59 @@
 "use client";
 
-import { ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, MessageCircle } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { founders, inquiry, services } from "@/data/data";
+import { founders, services } from "@/data/data";
 
-type State = {
-  kind: "idle" | "loading" | "success" | "error";
-  message: string;
+type PreparedLink = {
+  id: (typeof founders)[number]["id"];
+  name: (typeof founders)[number]["name"];
+  href: string;
 };
+
 export function ContactForm() {
-  const [state, setState] = useState<State>({ kind: "idle", message: "" });
-  async function submit(event: FormEvent<HTMLFormElement>) {
+  const [preparedLinks, setPreparedLinks] = useState<PreparedLink[] | null>(
+    null,
+  );
+
+  function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = event.currentTarget;
-    setState({ kind: "loading", message: "" });
-    try {
-      const body = Object.fromEntries(new FormData(form));
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const data = (await response.json()) as { message?: string };
-      if (!response.ok) throw new Error(data.message);
-      setState({ kind: "success", message: data.message ?? "Inquiry sent." });
-      form.reset();
-    } catch (error) {
-      setState({
-        kind: "error",
-        message:
-          error instanceof Error && error.message
-            ? error.message
-            : `Delivery is unavailable. Call or WhatsApp ${founders[0].phone}.`,
-      });
-    }
+    const formData = new FormData(event.currentTarget);
+    const value = (name: string) => String(formData.get(name) ?? "").trim();
+    const business = value("business");
+    const phone = value("phone");
+    const email = value("email");
+    const selectedServices = formData
+      .getAll("services")
+      .map((service) => String(service).trim())
+      .filter(Boolean);
+    const description = value("description");
+    const message = [
+      "New project inquiry via the Calystr website",
+      `Name: ${value("name")}`,
+      ...(business ? [`Business: ${business}`] : []),
+      ...(email ? [`Email: ${email}`] : []),
+      `Phone: ${phone}`,
+      ...(selectedServices.length
+        ? [`Services: ${selectedServices.join(", ")}`]
+        : []),
+      ...(description ? ["", "Project description:", description] : []),
+    ].join("\n");
+
+    setPreparedLinks(
+      founders.map((founder) => ({
+        id: founder.id,
+        name: founder.name,
+        href: `https://wa.me/${founder.whatsapp}?${new URLSearchParams({ text: message })}`,
+      })),
+    );
   }
+
   return (
-    <form className="contact-form" onSubmit={submit}>
+    <form
+      className="contact-form"
+      onSubmit={submit}
+      onChange={() => setPreparedLinks(null)}
+    >
       <div className="field-row">
         <label>
           Name
@@ -50,73 +67,68 @@ export function ContactForm() {
       <div className="field-row">
         <label>
           Email
-          <input type="email" name="email" required autoComplete="email" />
+          <input type="email" name="email" autoComplete="email" />
         </label>
         <label>
-          Phone
+          Mobile number
           <input
             type="tel"
             name="phone"
+            required
             autoComplete="tel"
             pattern="[+0-9 ()-]{7,20}"
           />
         </label>
       </div>
-      <div className="field-row">
-        <label>
-          Service
-          <select name="service" required defaultValue="">
-            <option value="" disabled>
-              Select a service
-            </option>
-            {services.map((s) => (
-              <option key={s.slug} value={s.title}>
-                {s.title}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Estimated budget
-          <select name="budget" required defaultValue="">
-            <option value="" disabled>
-              Select a range
-            </option>
-            {inquiry.budgets.map((b) => (
-              <option key={b}>{b}</option>
-            ))}
-          </select>
-        </label>
-      </div>
+      <fieldset className="service-selection">
+        <legend>Services</legend>
+        <p>Select all that apply. This is optional.</p>
+        <div className="service-options">
+          {services.map((s) => (
+            <label key={s.slug}>
+              <input type="checkbox" name="services" value={s.title} />
+              <span>{s.title}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
       <label>
         Project description
         <textarea
           name="description"
-          required
-          minLength={30}
-          rows={6}
+          maxLength={5000}
+          rows={3}
           placeholder="What are you building, who is it for, and what needs to change?"
         />
       </label>
-      <div className="honeypot" aria-hidden="true">
-        <label>
-          Website
-          <input name="website" tabIndex={-1} autoComplete="off" />
-        </label>
-      </div>
       <button
         className="submit-button"
-        disabled={state.kind === "loading"}
         type="submit"
       >
-        {state.kind === "loading" ? "Sending…" : "Send inquiry"}
+        Prepare WhatsApp messages
         <ArrowUpRight size={18} />
       </button>
-      {state.message && (
-        <p className={`form-status ${state.kind}`} role="status">
-          {state.kind === "success" && <CheckCircle2 size={18} />}{" "}
-          {state.message}
-        </p>
+      {preparedLinks && (
+        <div className="whatsapp-result">
+          <p className="form-status" role="status">
+            <CheckCircle2 size={18} aria-hidden="true" />
+            Your inquiry is ready. Open both chats below and press Send in each.
+            WhatsApp does not let websites send messages automatically.
+          </p>
+          <div className="whatsapp-actions">
+            {preparedLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle size={17} aria-hidden="true" />
+                <span>Send to {link.name}</span>
+              </a>
+            ))}
+          </div>
+        </div>
       )}
     </form>
   );

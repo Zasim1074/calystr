@@ -422,6 +422,15 @@ a {
   overflow: hidden;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
+.project-preview {
+  margin: 0;
+}
+.project-preview-caption {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
 .project-visual.ember {
   background:
     radial-gradient(circle at 75% 18%, #ff8b3d 0, transparent 25%),
@@ -589,6 +598,14 @@ a {
   font-size: 60px;
   font-weight: 300;
 }
+.portrait-image {
+  object-fit: cover;
+  object-position: center 30%;
+}
+.portrait-photo:before,
+.portrait-photo:after {
+  display: none;
+}
 .founder-grid h3,
 .founder-grid h2 {
   font-size: 30px;
@@ -605,6 +622,39 @@ a {
 .founder-grid p {
   color: var(--muted);
   line-height: 1.65;
+}
+.founder-profile-links {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  max-width: 100%;
+  margin-top: 4px;
+}
+.founder-profile-links a {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 100%;
+  color: var(--warm-white);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  text-underline-offset: 4px;
+}
+.founder-profile-links a span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.founder-profile-links a:hover {
+  color: var(--red);
+}
+.founder-profile-links a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
 .process-section {
   background: #ece9e1;
@@ -703,7 +753,7 @@ a {
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   padding-top: 18px;
 }
 .field-row {
@@ -759,9 +809,95 @@ a {
 }
 .form-status {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   margin: 0;
+  line-height: 1.6;
+}
+.contact-form .service-selection {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.service-selection legend {
+  padding: 0;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.service-selection > p {
+  margin: 8px 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.service-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+}
+.contact-form .service-options label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.4;
+  text-transform: none;
+  cursor: pointer;
+}
+.contact-form .service-options input {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 3px;
+  background: transparent;
+  accent-color: var(--red);
+}
+.contact-form .service-options label:focus-within {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+.whatsapp-result {
+  display: grid;
+  gap: 14px;
+}
+.whatsapp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.whatsapp-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 99px;
+  color: var(--warm-white);
+  font-size: 13px;
+  font-weight: 600;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.whatsapp-actions a:hover {
+  border-color: var(--red);
+  background: rgba(240, 68, 50, 0.1);
+}
+.whatsapp-actions a:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
 }
 .honeypot {
   position: absolute;
@@ -909,7 +1045,8 @@ footer {
 .work-card .project-visual {
   margin-bottom: 26px;
 }
-.work-card h2 {
+.work-card h2,
+.work-card h3 {
   font-size: 42px;
   margin: 12px 0;
 }
@@ -936,6 +1073,19 @@ footer {
   grid-template-columns: 1fr 1fr;
   gap: 2vw;
   margin: 90px 0;
+}
+.case-architecture {
+  margin: 60px 0;
+}
+.case-architecture p,
+.case-note {
+  max-width: 760px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.case-note {
+  margin-top: 40px;
+  font-size: 13px;
 }
 .case-grid article {
   padding: 30px;
@@ -1035,6 +1185,9 @@ footer {
   }
   .founder-grid article {
     grid-template-columns: 1fr;
+  }
+  .founder-profile-links {
+    grid-column: 1;
   }
   .portrait {
     grid-row: auto;
@@ -1315,60 +1468,8 @@ footer {
 .process-section {
   background: var(--warm-white);
 }
-.founder-contacts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
-}
-.founder-contacts a {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 38px;
-  padding: 8px 11px;
-  border: 1px solid var(--line);
-  border-radius: 99px;
-  color: var(--text);
-  font-size: 11px;
-  font-weight: 600;
-}
-.founder-contacts a:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
 .founder-grid article {
   align-content: end;
-}
-.founder-grid .founder-contacts {
-  grid-column: 2;
-}
-.direct-contacts {
-  display: grid;
-  gap: 12px;
-  margin-top: 36px;
-}
-.direct-contacts article {
-  padding: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 16px;
-  background: rgba(5, 8, 22, 0.15);
-}
-.direct-contacts strong,
-.direct-contacts > article > span {
-  display: block;
-}
-.direct-contacts > article > span {
-  margin-top: 4px;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.72;
-}
-.direct-contacts .founder-contacts {
-  margin-top: 10px;
-}
-.direct-contacts .founder-contacts a {
-  border-color: rgba(255, 255, 255, 0.32);
 }
 @media (max-width: 600px) {
   .hero {
@@ -1398,12 +1499,6 @@ footer {
   }
   .brand-wordmark {
     font-size: 12px;
-  }
-  .founder-grid .founder-contacts {
-    grid-column: 1;
-  }
-  .founder-contacts a {
-    font-size: 10px;
   }
 }
 /* CALYSTR premium finish: red-led hierarchy, disciplined depth and tighter rhythm */
